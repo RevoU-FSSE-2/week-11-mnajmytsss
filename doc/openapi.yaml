@@ -12,32 +12,6 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: "Bearer with JWT Token"
-  # schemas:
-  #   RegisterUser:
-  #     type: object
-  #     properties:
-  #       username:
-  #         type: string
-  #       password:
-  #         type: string
-  #         minLength: 8
-  #         # pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$"
-  #       role:
-  #         type: string
-  #     required:
-  #       - username
-  #   LoginUser:
-  #     type: object
-  #     properties:
-  #       username:
-  #         type: string
-  #       password:
-  #         type: string
-  #   BadRequest:
-  #     type: object
-  #     properties:
-  #       error:
-  #         type: string
 paths:
   /auth/register:
     post:
@@ -53,8 +27,6 @@ paths:
                   type: string
                 password:
                   type: string
-                  minLength: 8
-                  pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$"
                 role:
                   type: string
       responses:
