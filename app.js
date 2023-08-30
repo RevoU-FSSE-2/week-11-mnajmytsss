@@ -1,3 +1,5 @@
+const dotenv = require("dotenv")
+
 const openApiValidator = require("express-openapi-validator");
 const swaggerUi = require("swagger-ui-express");
 const yaml = require("yaml");
@@ -16,23 +18,17 @@ const swaggerDocs = yaml.parse(readApiFile);
 
 
 const app = express()
+dotenv.config()
 
 app.use(cors());
 app.use(express.json())
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use(
-    openApiValidator.middleware({
-      apiSpec: openApiPath,
-      validateRequests: true,
-    })
-  ); 
+
 
 app.use(async (req, res, next) => {
     let db
     try {
-        const client = await new MongoClient(
-            "mongodb+srv://najmy:Smandak12@cluster0.xxlfbbe.mongodb.net").connect()
+        const client = await new MongoClient(process.env.MONGODB).connect()
         db = client.db("milestone")
     }catch (error) {
         console.log(error);
@@ -50,7 +46,13 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter)
 app.use("/product", authenticationMiddleware, productRouter)
 
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use(
+    openApiValidator.middleware({
+      apiSpec: openApiPath,
+      validateRequests: true,
+    })
+  ); 
 
 const port = 4004
 
