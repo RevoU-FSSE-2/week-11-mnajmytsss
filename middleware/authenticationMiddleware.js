@@ -5,7 +5,7 @@ const authenticationMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization
 
     if(!authHeader) {
-        res.status(401).json({ error: "unauthorzed"})
+        res.status(401).json({ error: "unauthorized"})
     } else {
         const token= authHeader.split(' ') [1]
 
