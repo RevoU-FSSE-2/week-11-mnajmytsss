@@ -1,12 +1,32 @@
+const openApiValidator = require("express-openapi-validator");
+const swaggerUi = require("swagger-ui-express");
+const yaml = require("yaml");
+const fs = require("fs");
+const cors = require("cors")
+
 const express = require("express")
 const { MongoClient } = require("mongodb")
 const authRouter = require("./routes/authRoute")
 const productRouter = require("./routes/productRoute")
 const authenticationMiddleware = require("./middleware/authenticationMiddleware")
 
+const openApiPath = "./doc/openapi.yaml";
+const readApiFile = fs.readFileSync(openApiPath, "utf8");
+const swaggerDocs = yaml.parse(readApiFile); 
+
+
 const app = express()
 
+app.use(cors());
 app.use(express.json())
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use(
+    openApiValidator.middleware({
+      apiSpec: openApiPath,
+      validateRequests: true,
+    })
+  ); 
 
 app.use(async (req, res, next) => {
     let db
@@ -29,6 +49,8 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter)
 app.use("/product", authenticationMiddleware, productRouter)
+
+
 
 const port = 4004
 
