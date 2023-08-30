@@ -4,14 +4,40 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:4004
-    description: "Development server"
+    description: 'Development server'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: "Bearer with JWT Token"
+      description: 'Bearer with JWT Token'
+  # schemas:
+  #   RegisterUser:
+  #     type: object
+  #     properties:
+  #       username:
+  #         type: string
+  #       password:
+  #         type: string
+  #         minLength: 8
+  #         # pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$"
+  #       role:
+  #         type: string 
+  #     required:
+  #       - username
+  #   LoginUser:
+  #     type: object
+  #     properties:
+  #       username:
+  #         type: string
+  #       password:
+  #         type: string
+  #   BadRequest:
+  #     type: object
+  #     properties:
+  #       error:
+  #         type: string
 paths:
   /auth/register:
     post:
@@ -27,13 +53,13 @@ paths:
                   type: string
                 password:
                   type: string
+                  minLength: 8
+                  pattern: ^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$
                 role:
                   type: string
       responses:
-        "200":
+        '200':
           description: Success
-        "400":
-          description: Bad Request
 
   /auth/login:
     post:
@@ -50,7 +76,7 @@ paths:
                 password:
                   type: string
       responses:
-        "200":
+        '200':
           description: Success
 
   /product:
@@ -68,14 +94,14 @@ paths:
                 quantity:
                   type: string
       responses:
-        "200":
+        '200':
           description: Success
     get:
       summary: Get all product
       security:
         - bearerAuth: []
       responses:
-        "200":
+        '200':
           description: Success
   /product/{productId}:
     get:
@@ -91,7 +117,7 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        "200":
+        '200':
           description: Success
 
     patch:
@@ -114,22 +140,9 @@ paths:
                 quantity:
                   type: string
       responses:
-        "200":
+        '200':
           description: Success
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                      statusCode:
-                        type: integer
+          
     delete:
       summary: Delete transfer
       operationId: deleteProductById
@@ -141,7 +154,8 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Success
-# security:
-#   - bearerAuth: []
+
+security:
+  - bearerAuth: []
