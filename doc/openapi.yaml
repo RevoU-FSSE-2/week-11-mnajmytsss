@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Inventory Tracker RESTApi
+  version: 1.0.0
+servers:
+  - url: http://localhost:4004
+    description: "Development server"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Bearer with JWT Token"
+  # schemas:
+  #   RegisterUser:
+  #     type: object
+  #     properties:
+  #       username:
+  #         type: string
+  #       password:
+  #         type: string
+  #         minLength: 8
+  #         # pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$"
+  #       role:
+  #         type: string
+  #     required:
+  #       - username
+  #   LoginUser:
+  #     type: object
+  #     properties:
+  #       username:
+  #         type: string
+  #       password:
+  #         type: string
+  #   BadRequest:
+  #     type: object
+  #     properties:
+  #       error:
+  #         type: string
+paths:
+  /auth/register:
+    post:
+      summary: RegisterUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  minLength: 8
+                  pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]*$"
+                role:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Bad Request
+
+  /auth/login:
+    post:
+      summary: LoginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Success
+
+  /product:
+    post:
+      summary: Create Product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productName:
+                  type: string
+                quantity:
+                  type: string
+      responses:
+        "200":
+          description: Success
+    get:
+      summary: Get all product
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Success
+  /product/{productId}:
+    get:
+      summary: Get Product by Id
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          description: to get the product by id
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Success
+
+    patch:
+      summary: Update product
+      operationId: updateProductById
+      parameters:
+        - name: productId
+          in: path
+          description: to update quantity the product by id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: string
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      statusCode:
+                        type: integer
+    delete:
+      summary: Delete transfer
+      operationId: deleteProductById
+      parameters:
+        - name: productId
+          in: path
+          description: to delete the product by id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+# security:
+#   - bearerAuth: []
