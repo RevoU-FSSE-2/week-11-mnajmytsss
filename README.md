@@ -56,43 +56,43 @@ The Inventory Tracker App uses JWT token-based authentication to secure its endp
 
 [Try me](https://wild-gold-fossa-vest.cyclic.app/api-docs)
 
-**Register New Account (User, Admin)**
+**Register New Account (User & Admin)**
 
 ```http
 POST | https://wild-gold-fossa-vest.cyclic.app/auth/register
 ```
 
-**Log In User (User, Admin)**
+**Log In User (User & Admin)**
 
 ```http
 POST | https://wild-gold-fossa-vest.cyclic.app/auth/register
 ```
 
-**Create new Product**
+**Create new Product (Only Admin)**
 
 ```http
 POST | https://wild-gold-fossa-vest.cyclic.app/product
 ```
 
-**Get All Product (User, Admin)**
+**Get All Product (User & Admin)**
 
 ```http
 POST | https://wild-gold-fossa-vest.cyclic.app/product
 ```
 
-**Get Product by Id (User, Admin)**
+**Get Product by Id (User & Admin)**
 
 ```http
 POST | https://wild-gold-fossa-vest.cyclic.app/product/:id
 ```
 
-**Patching Product Quantity Status (User, Admin)**
+**Patching Product Quantity Status (User & Admin)**
 
 ```http
 PATCH | https://wild-gold-fossa-vest.cyclic.app/product/:id
 ```
 
-**Delete Product by ID**
+**Delete Product by ID (Only Admin)**
 
 ```http
 DELETE | https://wild-gold-fossa-vest.cyclic.app/product/:id
